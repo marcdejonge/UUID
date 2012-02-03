@@ -36,11 +36,13 @@ public class Version1Generator implements UUIDGenerator {
 						// Try to find a real interface to use the MAC address from
 						if (!iface.isLoopback() && !iface.isVirtual()) {
 							final byte[] address = iface.getHardwareAddress();
+							if(address != null) {
 							long result = 0;
 							for (final byte x : address) {
 								result = result << 8 | x & 0xFF;
 							}
 							return  result;
+							}
 						}
 					} catch (final SocketException ex) {
 						// Ignore any socket exception and continue
