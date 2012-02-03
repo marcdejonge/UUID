@@ -12,7 +12,7 @@ public final class UUID implements Comparable<UUID>, java.io.Serializable, Clone
 	private static final long serialVersionUID = -5280842971319245505L;
 
 	/* Use a private generator to generate new UUIDs */
-	private final static UUIDGenerator GENERATOR = new Version1Generator();
+	private final static UUIDGenerator GENERATOR = UUIDGeneratorFactory.getFactory().createGenerator(Version.VERSION1);
 
 	/* Use a private parser instance to parse UUIDs */
 	private final static UUIDParser PARSER = new UUIDParser();

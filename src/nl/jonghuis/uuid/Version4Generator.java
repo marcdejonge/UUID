@@ -8,7 +8,7 @@ import java.util.Random;
  * @author Marc de Jonge
  * @version 3 February 2012
  */
-public class Version4Generator implements UUIDGenerator {
+class Version4Generator implements UUIDGenerator {
 	private final Random random;
 
 	/**

@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Marc de Jonge
  * @version 3 February 2012
  */
-public class Version1Generator implements UUIDGenerator {
+class Version1Generator implements UUIDGenerator {
 	// Offset got from http://www.famkruithof.net/guid-uuid-timebased.html
 	private static final long UTC_TIME_OFFSET = 0x1B21DD213814000L;
 
