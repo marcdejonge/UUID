@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class UUIDParser {
 
+	private final static char[] HEX = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
 	/**
 	 * Creates a new UUIDParser
 	 */
@@ -54,5 +56,37 @@ public class UUIDParser {
 		final long node = parseFromString(uuid, ix);
 
 		return new UUID(time, node);
+	}
+
+	/**
+	 * @return Generates a String representation of this UUID in the form
+	 *         <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>.
+	 */
+	public String toString(UUID uuid) {
+		char[] result = new char[36];
+		final long time = uuid.getTime();
+		final long node = uuid.getNode();
+
+		for (int ix = 0; ix < 8; ix++) {
+			result[ix] = HEX[(int) (time >>> 60 - ix * 4) & 0xf];
+		}
+		result[8] = '-';
+		for (int ix = 9; ix < 13; ix++) {
+			result[ix] = HEX[(int) (time >>> 64 - ix * 4) & 0xf];
+		}
+		result[13] = '-';
+		for (int ix = 14; ix < 18; ix++) {
+			result[ix] = HEX[(int) (time >>> 68 - ix * 4) & 0xf];
+		}
+		result[18] = '-';
+		for (int ix = 19; ix < 23; ix++) {
+			result[ix] = HEX[(int) (node >>> 136 - ix * 4) & 0xf];
+		}
+		result[23] = '-';
+		for (int ix = 24; ix < 36; ix++) {
+			result[ix] = HEX[(int) (node >>> 140 - ix * 4) & 0xf];
+		}
+
+		return new String(result);
 	}
 }

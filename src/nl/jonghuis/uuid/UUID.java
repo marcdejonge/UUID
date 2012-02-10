@@ -44,6 +44,28 @@ public final class UUID implements Comparable<UUID>, java.io.Serializable, Clone
 	private long time, node;
 
 	/**
+	 * Creates a new UUID from the 16 bytes that are given.
+	 * 
+	 * @param bytes
+	 *            The 16 bytes that represent this UUID.
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             When there are less than 16 bytes available.
+	 */
+	public UUID(byte[] bytes) {
+		long time = 0;
+		for (int ix = 0; ix < 8; ix++) {
+			time = time << 8 | bytes[ix] & 0xff;
+		}
+		this.time = time;
+
+		long node = 0;
+		for (int ix = 8; ix < 16; ix++) {
+			node = node << 8 | bytes[ix] & 0xff;
+		}
+		this.node = node;
+	}
+
+	/**
 	 * Creates a new UUID from two 64-bit values.
 	 * 
 	 * @param time
@@ -152,18 +174,31 @@ public final class UUID implements Comparable<UUID>, java.io.Serializable, Clone
 	}
 
 	/**
+	 * @return A byte array that represents this UUID, which is always 16 bytes long.
+	 */
+	public byte[] toBytes() {
+		byte[] result = new byte[16];
+		long x = time;
+		for (int ix = 0; ix < 8; ix++) {
+			result[7 - ix] = (byte) x;
+			x >>>= 8;
+		}
+		x = node;
+		for (int ix = 0; ix < 8; ix++) {
+			result[15 - ix] = (byte) x;
+			x >>>= 8;
+		}
+		return result;
+	}
+
+	/**
 	 * @return Generates a String representation of this UUID in the form
 	 *         <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>.
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return String.format(	"%08x-%04x-%04x-%04x-%012x",
-								(time >>> 16) % 0xFFFFFFFFL,
-								time >> 8 & 0xFFFFL,
-								time & 0xFFFFL,
-								node >>> 48 & 0xFFFFL,
-								node & 0xFFFFFFFFFFFFL);
+		return PARSER.toString(this);
 	}
 
 	/* Needed for the Serializable interface */
