@@ -25,7 +25,7 @@ class Version1Generator implements UUIDGenerator {
 	}
 
 	/**
-	 * @return A long number representing this node. This usually is based on the first MAC address found, but when that does not work, it will return a random value. 
+	 * @return A long number representing this node. This usually is based on the first MAC address found, but when that does not work, it will return a random value. The node id is always 48 bits, so the upper 16 bits are always zero.
 	 */
 	public static long getNode() {
 	 try {
@@ -54,7 +54,7 @@ class Version1Generator implements UUIDGenerator {
 		}
 
 		// If we can not find anything, just use a random number
-		return new Random(System.nanoTime()).nextLong() | 0x800000000000L;
+		return new Random(System.nanoTime()).nextLong() & 0xFFFFFFFFFFFFL;
 	}
 	
 	private volatile long lastTime;

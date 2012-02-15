@@ -27,6 +27,11 @@ public class UUIDTest {
 	}
 
 	@Test
+	public void version6Test() {
+		assertEquals(6, Version6Generator.getInstance().next().getVersion());
+	}
+
+	@Test
 	public void versionTest() {
 		for (int i = 0; i < 10000; i++) {
 			assertEquals(UUID.generate().getVersion(), 1);
