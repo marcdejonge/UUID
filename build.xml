@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="UUID" default="compile">
+	<property name="dir.src" value="src" />
+	<property name="dir.bin" value="bin" />
+	
+	<target name="clean">
+		<delete dir="${dir.bin}" />
+	</target>
+	
+	<target name="compile" description="Compile project">
+		<mkdir dir="${dir.bin}" />
+		<javac destdir="${dir.bin}" debug="true" includeAntRuntime="false">
+			<src path="${dir.src}" />
+		</javac>
+	</target>
+	
+	<target name="jar" description="Package project" depends="compile">
+		<jar destfile="${ant.project.name}.jar">
+			<fileset dir="${dir.bin}"/>
+		</jar>
+	</target>
+</project>
